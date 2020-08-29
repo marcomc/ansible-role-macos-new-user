@@ -12,7 +12,7 @@
       var: profile_pictures
     when: verbose|bool
 
-  - name: Copy random profile picture in user's Pictures directory
+  - name: Copy random profile picture "{{ item | basename }}" in user's Pictures directory
     copy:
       src: "{{ new_user_random_profile_pictures_path }}/{{ item }}"
       dest: "/Users/{{ new_user_username }}/Pictures/{{ item | basename }}"
@@ -34,7 +34,7 @@
     - new_user_random_profile_picture|bool
 
 - block:
-  - name: Copy profile picture in user's Pictures directory
+  - name: Copy profile picture "{{ item | basename }}" in user's Pictures directory
     copy:
       src: "{{ new_user_profile_picture_path }}"
       dest: "/Users/{{ new_user_username }}/Pictures/{{ item | basename }}"
@@ -54,8 +54,13 @@
     picture_path: "{{ profile_picture.results[0].item|default(random_profile_picture.results[0].item) }}"
     username: "{{ new_user_username }}"
   register: user_profile_picture_created
-  when: (profile_picture.changed and profile_picture.results != []) or (random_profile_picture.changed and random_profile_picture.results != [])
+  when: (profile_picture.changed and profile_picture.results != []) or ((random_profile_picture.changed or random_profile_picture.failed) random_profile_picture.results != [])
   become: yes
+
+- name: user_profile_picture_created
+  debug:
+    var: user_profile_picture_created
+  when: verbose|bool
 
 - block:
   - name: Clear existing user profile picture
@@ -66,7 +71,6 @@
 
   - name: Set the user profile picture.
     command: dsimport "/Library/Caches/{{ new_user_username }}.picture.dsimport" /Local/Default M -u "${ new_user_username }"
-    when: random_profile_picture is defined and random_profile_picture.results != []
   # end block
   when: user_profile_picture_created.changed and not user_profile_picture_created.failed
   become: yes
