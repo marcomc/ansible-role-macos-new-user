@@ -56,7 +56,7 @@
   register: user_profile_picture_created
   when:
     - profile_picture is defined or random_profile_picture is defined
-    - (profile_picture.results is not defined and profile_picture.results != []) or (random_profile_picture.results and random_profile_picture.results != [])
+    - (profile_picture.results is defined and profile_picture.results != []) or (random_profile_picture.results is defined and random_profile_picture.results != [])
   become: yes
 
 - name: user_profile_picture_created
