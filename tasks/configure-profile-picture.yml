@@ -1,7 +1,7 @@
 ---
 - block:
   - name: Build list of available profile pictures
-    shell: ls -1 {{ new_user_random_profile_pictures_path }}/ | grep '{{ new_user_profile_pictures_filter_formats }}'
+    shell: ls -1 {{ new_user_random_profile_pictures_path }}/ | grep -i '{{ new_user_profile_pictures_filter_formats }}'
     register: profile_pictures
     ignore_errors: yes
     delegate_to: localhost
