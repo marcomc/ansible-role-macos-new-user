@@ -22,7 +22,7 @@
         - new_user_created is defined
         - not new_user_created.failed
     # end block
-    when: not (new_user_username_already_in_use|bool | default(no))
+    when: not (new_user_username_already_in_use|default(no))
   #end block
   when:
     - new_user_username is defined
