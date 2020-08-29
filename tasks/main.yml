@@ -1,0 +1,29 @@
+---
+- name: FATAL - This system is family is {{ ansible_facts['os_family'] }}
+  fail:
+    msg: "This role is only compatible with macOS"
+  when: ansible_facts['os_family'] != 'Darwin'
+
+- block:
+  - include_task: create-user.yml
+
+  - block:
+    - include_task: generate-ssh-key.yml
+      when: new_user_generate_ssh_key | default('yes') | bool
+
+    - include_task: assing-profile-picture.yml
+      when: new_user_profile_picture_path !='' or new_user_random_profile_picture|bool
+
+    - include_task: profile-config.yml
+    #end block
+    when:
+      - new_user_created is defined
+      - not new_user_created.failed
+  #end block
+  when:
+    - new_user_username is defined
+    - new_user_username != ""
+
+- debug:
+    msg: "No 'new_user_username' was defined"
+  when: new_user_username is not defined or new_user_username == ""
