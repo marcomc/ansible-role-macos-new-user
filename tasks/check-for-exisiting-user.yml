@@ -9,7 +9,6 @@
     var: command_result
   when: verbose | bool
 
-- name: The user "{{ new_user_username }}" already exists
+- name: "{{ new_user_username_already_in_use }} == {{ not (command_result.failed is defined and command_result.failed|bool) }}"
   set_fact:
-    new_user_username_already_in_use: yes
-  when: not (command_result.failed is defined and command_result.failed|bool)
+    new_user_username_already_in_use: "{{ not (command_result.failed is defined and command_result.failed|bool) }}"
