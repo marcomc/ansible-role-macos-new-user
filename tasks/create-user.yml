@@ -1,6 +1,6 @@
 ---
 
-- name: Creating  user "{{ new_user_username }}".
+- name: Creating user "{{ new_user_username }}".
   user:
     name: "{{ new_user_username | mandatory }}"
     comment: "{{ new_user_fullname | default(omit) }}"
@@ -15,8 +15,9 @@
   register: new_user_created
   become: yes
 
-- debug:
-    msg: "{{ new_user_created }}"
+- name: new_user_created
+  debug:
+    var: new_user_created
   when: verbose | bool
 
 - name: Remove user from 'admin' group.
@@ -25,8 +26,9 @@
   when: new_user_is_admin is defined and not new_user_is_admin
   become: yes
 
-- debug:
-    msg: "{{ new_user_removed_from_admin }}"
+- name: new_user_removed_from_admin
+  debug:
+    var: new_user_removed_from_admin
   when: verbose | bool
 
 - name: Require new password at the first login
@@ -41,6 +43,7 @@
   changed_when: no
   become: yes
 
-- debug:
-    msg: "{{ new_user_home_dir_created }}"
+- name: new_user_home_dir_created
+  debug:
+    var: new_user_home_dir_created
   when: verbose | bool

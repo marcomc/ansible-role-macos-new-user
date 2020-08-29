@@ -56,6 +56,7 @@
   register: user_profile_picture_created
   when:
     - profile_picture is defined or random_profile_picture is defined
+    - profile_picture.skipped is not defined and random_profile_picture.skipped is not defined 
     - profile_picture.results != [] or random_profile_picture.results != []
   become: yes
 
