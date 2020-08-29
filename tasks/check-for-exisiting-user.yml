@@ -3,6 +3,7 @@
   command: id {{ new_user_username }}
   register: command_result
   ignore_errors: yes
+  changed_when: no
 
 - name: List of users status
   debug:
