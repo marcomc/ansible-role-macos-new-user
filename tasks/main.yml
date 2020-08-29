@@ -6,6 +6,10 @@
 
 - block:
   - include_tasks: check-for-exisiting-user.yml
+  - debug:
+      msg: "Will Skip the configuration of the account for '{{ new_user_username}}' "
+    when: new_user_username_already_in_use|default('no')
+
   - block:
     - include_tasks: create-user.yml
 
