@@ -6,8 +6,9 @@
     ignore_errors: yes
     become: no
 
-  - debug:
-      msg: "{{ profile_pictures }}"
+  - name: profile_pictures
+    debug:
+      var: profile_pictures
     when: verbose|bool
 
   - name: Copy random profile picture in user's Pictures directory
@@ -22,8 +23,9 @@
     register: random_profile_picture
     become: yes
 
-  - debug:
-      msg: "{{ random_profile_picture }}"
+  - name: random_profile_picture
+    debug:
+      var:  random_profile_picture
     when: verbose|bool
   # end block
   when:
@@ -51,7 +53,7 @@
     picture_path: "{{ profile_picture.results[0].item|default(random_profile_picture.results[0].item) }}"
     username: "{{ new_user_username }}"
   register: user_profile_picture_created
-  when: (profile_picture is defined and profile_picture.results != []) or (random_profile_picture is defined and random_profile_picture.results != [])
+  when: (profile_picture is defined and profile_picture.results != []) # or (random_profile_picture is defined and random_profile_picture.results != [])
   become: yes
 
 - block:
