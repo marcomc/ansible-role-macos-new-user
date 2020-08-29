@@ -4,6 +4,8 @@
     shell: ls -1 {{ new_user_random_profile_pictures_path }}/*.jpg
     register: profile_pictures
     ignore_errors: yes
+    delegate_to: localhost
+    ansible_search_path: "{{ playbook_dir }}"
     become: no
 
   - name: profile_pictures
@@ -22,6 +24,7 @@
     ignore_errors: yes
     register: random_profile_picture
     become: yes
+    ansible_search_path: "{{ playbook_dir }}"
 
   - name: random_profile_picture
     debug:

@@ -8,13 +8,13 @@
   - include_tasks: create-user.yml
 
   - block:
+    - include_tasks: profile-config.yml
+    
     - include_tasks: generate-ssh-key.yml
       when: new_user_generate_ssh_key | default('yes') | bool
 
     - include_tasks: configure-profile-picture.yml
       when: new_user_profile_picture_path !='' or new_user_random_profile_picture|bool
-
-    - include_tasks: profile-config.yml
     #end block
     when:
       - new_user_created is defined

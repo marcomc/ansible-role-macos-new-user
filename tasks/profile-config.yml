@@ -1,15 +1,15 @@
 ---
-- name: User Profile - verify '/usr/local/bin' is present
+- name: Verify '/usr/local/bin' is present
   stat:
     path: /usr/local/bin
   register: usr_local_bin
 
-- name: User Profile - verify '/usr/local/sbin' is present
+- name: Verify '/usr/local/sbin' is present
   stat:
     path: /usr/local/sbin
   register: usr_local_sbin
 
-- name: User Profile - Add '/usr/local/bin' and '/usr/local/sbin' to '$PATH'
+- name: VAdd '/usr/local/bin' and '/usr/local/sbin' to '$PATH'
   lineinfile:
     path: "{{ item.config_file }}"
     state: present
