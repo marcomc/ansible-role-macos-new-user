@@ -9,7 +9,7 @@
     path: /usr/local/sbin
   register: usr_local_sbin
 
-- name: VAdd '/usr/local/bin' and '/usr/local/sbin' to '$PATH'
+- name: Add '/usr/local/bin' and '/usr/local/sbin' to '$PATH'
   lineinfile:
     path: "{{ item.config_file }}"
     state: present

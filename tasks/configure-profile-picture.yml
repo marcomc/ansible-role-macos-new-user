@@ -37,7 +37,7 @@
   - name: Copy profile picture in user's Pictures directory
     copy:
       src: "{{ new_user_profile_picture_path }}"
-      dest: "/Users/{{ new_user_username }}/Pictures/{{ item | basename }}"
+      dest: "/Users/{{ new_user_username }}/Pictures/{{ new_user_profile_picture_path | basename }}"
       owner: "{{ new_user_username }}"
       mode: 0644
     ignore_errors: yes
