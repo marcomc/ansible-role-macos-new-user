@@ -54,7 +54,7 @@
     picture_path: "{{ profile_picture.results[0].item|default(random_profile_picture.results[0].item) }}"
     username: "{{ new_user_username }}"
   register: user_profile_picture_created
-  when: (profile_picture.changed and profile_picture.results != []) or ((random_profile_picture.changed or random_profile_picture.failed) an random_profile_picture.results != [])
+  when: (profile_picture.changed and profile_picture.results != []) or ((random_profile_picture.changed or random_profile_picture.failed) and random_profile_picture.results != [])
   become: yes
 
 - name: user_profile_picture_created
