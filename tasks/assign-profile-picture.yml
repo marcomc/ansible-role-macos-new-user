@@ -1,6 +1,6 @@
 ---
 - block:
-  - name: New User - Build list of available profile pictures
+  - name: Build list of available profile pictures
     shell: ls -1 files/profile_pictures/*.jpg
     register: profile_pictures
     ignore_errors: yes
@@ -10,7 +10,7 @@
       msg: "{{ profile_pictures }}"
     when: verbose|bool
 
-  - name: New User - Copy random profile picture in user's Pictures directory
+  - name: Copy random profile picture in user's Pictures directory
     copy:
       src: "{{ item }}"
       dest: "/Users/{{ new_user_username }}/Pictures/{{ item | basename }}"
@@ -31,7 +31,7 @@
     - new_user_random_profile_picture|bool
 
 - block:
-  - name: New User - Copy profile picture in user's Pictures directory
+  - name: Copy profile picture in user's Pictures directory
     copy:
       src: "{{ new_user_profile_picture_path }}"
       dest: "/Users/{{ new_user_username }}/Pictures/{{ item | basename }}"
@@ -43,7 +43,7 @@
   when: new_user_profile_picture_path != ''
   become: yes
 
-- name: New User - Create user profile picture import file.
+- name: Create user profile picture import file.
   template:
     src: picture.dsimport.j2
     dest: "/Library/Caches/{{ username }}.picture.dsimport"
@@ -55,13 +55,13 @@
   become: yes
 
 - block:
-  - name: New User - Clear existing user profile picture
+  - name: Clear existing user profile picture
     command: 'dscl . delete /Users/{{ new_user_username }} {{ item }}'
     loop:
       - 'jpegphoto'
       - 'Picture'
 
-  - name: New User - Set the user profile picture.
+  - name: Set the user profile picture.
     command: dsimport "/Library/Caches/{{ new_user_username }}.picture.dsimport" /Local/Default M -u "${ new_user_username }"
     when: random_profile_picture is defined and random_profile_picture.results != []
   # end block

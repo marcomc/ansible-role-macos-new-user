@@ -1,5 +1,5 @@
 ---
-- name:               New User - Creating user's RSA SSH key.
+- name:               Creating user's RSA SSH key.
   user:
     name:             "{{ new_user_username | mandatory }}"
     generate_ssh_key: "{{ new_user_generate_ssh_key }}"
