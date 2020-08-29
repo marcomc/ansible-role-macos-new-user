@@ -12,7 +12,7 @@
       var: profile_pictures
     when: verbose|bool
 
-  - name: Copy random profile picture "{{ item | basename }}" in user's Pictures directory
+  - name: Copy random profile picture in user's Pictures directory
     copy:
       src: "{{ new_user_random_profile_pictures_path }}/{{ item }}"
       dest: "/Users/{{ new_user_username }}/Pictures/{{ item | basename }}"
@@ -34,7 +34,7 @@
     - new_user_random_profile_picture|bool
 
 - block:
-  - name: Copy profile picture "{{ item | basename }}" in user's Pictures directory
+  - name: Copy profile picture in user's Pictures directory
     copy:
       src: "{{ new_user_profile_picture_path }}"
       dest: "/Users/{{ new_user_username }}/Pictures/{{ item | basename }}"
@@ -51,12 +51,12 @@
     src: picture.dsimport.j2
     dest: "/Library/Caches/{{ username }}.picture.dsimport"
   vars:
-    picture_path: "{{ profile_picture.results[0].item|default(random_profile_picture.results[0].item) }}"
+    picture_path: "{{ profile_picture.path|default(random_profile_picture.results[0].path) }}"
     username: "{{ new_user_username }}"
   register: user_profile_picture_created
   when:
     - profile_picture is defined or random_profile_picture is defined
-    - (profile_picture.results is defined and profile_picture.results != []) or (random_profile_picture.results is defined and random_profile_picture.results != [])
+    - (profile_picture.path is defined and profile_picture.path != []) or (random_profile_picture.results is defined and random_profile_picture.results != [])
   become: yes
 
 - name: user_profile_picture_created
