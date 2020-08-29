@@ -12,4 +12,4 @@
 - name: The user "{{ new_user_username }}" already exists
   set_fact:
     new_user_username_already_in_use: yes
-  when: not (command_results.failed is defined or command_results.failed|bool)
+  when: not (command_result.failed is defined or command_result.failed|bool)
