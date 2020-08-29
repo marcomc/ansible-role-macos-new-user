@@ -67,5 +67,5 @@
     command: dsimport "/Library/Caches/{{ new_user_username }}.picture.dsimport" /Local/Default M -u "${ new_user_username }"
     when: random_profile_picture is defined and random_profile_picture.results != []
   # end block
-  when: user_profile_picture_created is defined and not user_profile_picture_created.failed
+  when: user_profile_picture_created.changed and not user_profile_picture_created.failed
   become: yes
