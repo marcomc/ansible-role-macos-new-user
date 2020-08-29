@@ -6,9 +6,10 @@
 
 - block:
   - include_tasks: check-for-exisiting-user.yml
+
   - debug:
-      msg: "Will Skip the configuration of the account for '{{ new_user_username}}' "
-    when: not new_user_username_already_in_use
+      msg: "Will Skip the creation and configuration of the account for '{{ new_user_username}}' "
+    when: new_user_username_already_in_use|bool
 
   - block:
     - include_tasks: create-user.yml
@@ -26,7 +27,7 @@
         - new_user_created is defined
         - not new_user_created.failed
     # end block
-    when: not new_user_username_already_in_use
+    when: not new_user_username_already_in_use|bool
   #end block
   when:
     - new_user_username is defined
