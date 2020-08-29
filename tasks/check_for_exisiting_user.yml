@@ -1,0 +1,15 @@
+---
+- name: Chech if user "{{ new_user_username }}" already exists
+  command: id {{ new_user_username }}
+  register: command_result
+  ignore_errors: yes
+
+- name: List of users status
+  debug:
+    var: command_result
+  when: verbose | bool
+
+- name: The user "{{ new_user_username }}" already exists
+  set_fact:
+    new_user_username_already_in_use: yes
+  when: not (command_results.failed is defined or command_results.failed|bool)
