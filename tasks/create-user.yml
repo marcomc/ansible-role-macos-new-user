@@ -1,45 +1,46 @@
 ---
 
-- name:               Creating  user "{{ new_user_username }}".
+- name: Creating  user "{{ new_user_username }}".
   user:
-    name:             "{{ new_user_username | mandatory }}"
-    comment:          "{{ new_user_fullname | default(omit) }}"
-    password:         "{{ new_user_password_cleartext }}"
-    shell:            "{{ new_user_shell|default('/bin/zsh') }}"
-    home:             "{{ new_user_home_dir | default('/Users/' + new_user_username ) }}"
-    create_home:      no
-    group:            "{{ new_user_primary_group | default('staff')}}"
-    groups:           "{{ new_user_additional_groups | default(['admin']) }}"
-    append:           yes
-    update_password:  on_create
-  register:           new_user_created
-  become:             yes
+    name: "{{ new_user_username | mandatory }}"
+    comment: "{{ new_user_fullname | default(omit) }}"
+    password: "{{ new_user_password_cleartext }}"
+    shell: "{{ new_user_shell|default('/bin/zsh') }}"
+    home: "{{ new_user_home_dir | default('/Users/' + new_user_username ) }}"
+    create_home: no
+    group: "{{ new_user_primary_group | default('staff')}}"
+    groups: "{{ new_user_additional_groups | default(['admin']) }}"
+    append: yes
+    update_password: on_create
+  register: new_user_created
+  become: yes
 
 - debug:
-    msg:              "{{ new_user_created }}"
-  when:               verbose | bool
+    msg: "{{ new_user_created }}"
+  when: verbose | bool
 
-- name:               Remove user from 'admin' group.
-  command:            dseditgroup -o edit -d '{{ new_user_username }}' -t user 'admin'
-  register:           new_user_removed_from_admin
-  when:               new_user_is_admin is defined and not new_user_is_admin
-  become:             yes
-
-- debug:
-    msg:              "{{ new_user_removed_from_admin }}"
-  when:               verbose | bool
-
-- name:               Require new password at the first login
-  command:            pwpolicy -u {{ new_user_username }} -setpolicy "newPasswordRequired=1"
-  when:               new_user_reset_password_on_login and (new_user_created is defined and not new_user_created.failed and new_user_created.changed)
-  become:             yes
-
-- name:               Create user's home
-  command:            'createhomedir -c -l -u "{{ new_user_username }}"'
-  when:               new_user_created is defined and not new_user_created.failed
-  register:           new_user_home_dir_created
-  become:             yes
+- name: Remove user from 'admin' group.
+  command: dseditgroup -o edit -d '{{ new_user_username }}' -t user 'admin'
+  register: new_user_removed_from_admin
+  when: new_user_is_admin is defined and not new_user_is_admin
+  become: yes
 
 - debug:
-    msg:              "{{ new_user_home_dir_created }}"
-  when:               verbose | bool
+    msg: "{{ new_user_removed_from_admin }}"
+  when: verbose | bool
+
+- name: Require new password at the first login
+  command: pwpolicy -u {{ new_user_username }} -setpolicy "newPasswordRequired=1"
+  when: new_user_reset_password_on_login and (new_user_created is defined and not new_user_created.failed and new_user_created.changed)
+  become: yes
+
+- name: Create user's home
+  command: 'createhomedir -c -l -u "{{ new_user_username }}"'
+  when: new_user_created is defined and not new_user_created.failed
+  register: new_user_home_dir_created
+  changed_when: no
+  become: yes
+
+- debug:
+    msg: "{{ new_user_home_dir_created }}"
+  when: verbose | bool

@@ -1,0 +1,9 @@
+---
+- name: Creating user's RSA SSH key.
+  user:
+    name: "{{ new_user_username | mandatory }}"
+    generate_ssh_key: "{{ new_user_generate_ssh_key }}"
+    ssh_key_bits: 2048
+    ssh_key_file: .ssh/id_rsa
+  become: yes
+  when: new_user_home_dir_created is defined and not new_user_home_dir_created.failed
