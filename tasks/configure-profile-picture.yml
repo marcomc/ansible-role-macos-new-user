@@ -56,7 +56,7 @@
     src: picture.dsimport.j2
     dest: "/Library/Caches/{{ username }}.picture.dsimport"
   vars:
-    picture_path: "{{ profile_picture.path|default(random_profile_picture.results[0].path) }}"
+    picture_path: "{{ profile_picture.dest|default(random_profile_picture.results[0].dest) }}"
     username: "{{ new_user_username }}"
   register: user_profile_picture_created
   when:
