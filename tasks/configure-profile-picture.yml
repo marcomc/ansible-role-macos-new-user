@@ -14,7 +14,7 @@
 
   - name: Copy random profile picture in user's Pictures directory
     copy:
-      src: "{{ item }}"
+      src: "{{ new_user_random_profile_pictures_path }}/{{ item }}"
       dest: "/Users/{{ new_user_username }}/Pictures/{{ item | basename }}"
       owner: "{{ new_user_username }}"
       mode: 0644
