@@ -10,3 +10,4 @@ new_user_is_admin:                        no
 new_user_update_path_for_all_shell_types: no
 new_user_profile_picture_path:            ""
 new_user_random_profile_picture:          yes
+new_user_random_profile_pictures_path:    "./files/profile_pictures"
