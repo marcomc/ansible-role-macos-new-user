@@ -17,6 +17,8 @@
     insertafter: EOF
     line: "{{ item.line }}"
     create: yes
+    owner: "{{ new_user_username }}"
+    group: 'staff'
   loop:
     - shell: 'bash'
       config_file: "/Users/{{ new_user_username }}/.bashrc"

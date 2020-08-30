@@ -18,6 +18,7 @@
       dest: "/Users/{{ new_user_username }}/Pictures/{{ item | basename }}"
       owner: "{{ new_user_username }}"
       mode: 0644
+      group: 'staff'
     when: profile_pictures.stdout_lines != []
     with_random_choice: "{{ profile_pictures.stdout_lines }}"
     ignore_errors: yes
@@ -40,6 +41,7 @@
       dest: "/Users/{{ new_user_username }}/Pictures/{{ new_user_profile_picture_path | basename }}"
       owner: "{{ new_user_username }}"
       mode: 0644
+      group: 'staff'
     ignore_errors: yes
     register: profile_picture
   # end block
