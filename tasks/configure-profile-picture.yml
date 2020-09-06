@@ -73,7 +73,8 @@
     var: user_profile_picture_created
   when: verbose|bool
 
-- block:
+- name: apply the new picture only of the import file exists and is different than before
+  block:
   - name: Clear existing profile picture for the user "{{ new_user_username }}".
     command: 'dscl . delete /Users/{{ new_user_username }} {{ item }}'
     loop:
