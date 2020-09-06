@@ -18,5 +18,6 @@ galaxy_info:
   galaxy_tags:
     - system
     - dscl
-    - user admin
+    - user
+    - admin
     - macos
