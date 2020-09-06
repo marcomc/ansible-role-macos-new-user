@@ -13,7 +13,7 @@
       var: profile_pictures
     when: verbose|bool
 
-  - name: Copy random profile picture in user's Pictures directory
+  - name: Copy random profile picture in the Pictures directory for the user '{{ new_user_username }}'
     copy:
       src: "{{ new_user_random_profile_pictures_path }}/{{ item }}"
       dest: "/Users/{{ new_user_username }}/Pictures/{{ item | basename }}"
