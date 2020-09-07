@@ -47,7 +47,7 @@
     ignore_errors: yes
     register: profile_picture
   # end block
-  when: new_user_profile_picture_path != ''
+  when: new_user_profile_picture_path | length > 0
   become: yes
 
 - name: profile_picture
