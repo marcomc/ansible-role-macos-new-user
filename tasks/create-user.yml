@@ -13,12 +13,12 @@
     append: yes
     update_password: on_create
   register: new_user_created
+  notify: Require new password at the first login
   become: yes
 
 - name: new_user_created
   debug:
     var: new_user_created
-  notify: Require new password at the first login
   when: verbose | bool
 
 - name: Remove user from 'admin' group.
