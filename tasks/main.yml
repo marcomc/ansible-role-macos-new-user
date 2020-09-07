@@ -31,7 +31,7 @@
   #end block
   when:
     - new_user_username is defined
-    - new_user_username != ""
+    - new_user_username | length > 0
 
 - debug:
     msg: "No 'new_user_username' was defined"
