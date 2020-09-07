@@ -32,7 +32,7 @@
     when: verbose|bool
   # end block
   when:
-    - new_user_profile_picture_path == ''
+    - new_user_profile_picture_path | length == 0
     - new_user_random_profile_picture|bool
 
 - name: Assign specific picture for the user "{{ new_user_username }}".

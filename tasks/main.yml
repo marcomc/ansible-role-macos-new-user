@@ -8,7 +8,7 @@
   - include_tasks: check-for-exisiting-user.yml
 
   - debug:
-      msg: "Will Skip the creation and configuration of the account for '{{ new_user_username}}' "
+      msg: "Will Skip the creation and configuration of the account for '{{ new_user_username }}' "
     when: new_user_username_already_in_use|bool
 
   - block:
@@ -21,7 +21,7 @@
         when: new_user_generate_ssh_key | default('yes') | bool
 
       - include_tasks: configure-profile-picture.yml
-        when: new_user_profile_picture_path !='' or new_user_random_profile_picture|bool
+        when: new_user_profile_picture_path | length > 0 or new_user_random_profile_picture|bool
       #end block
       when:
         - new_user_created is defined

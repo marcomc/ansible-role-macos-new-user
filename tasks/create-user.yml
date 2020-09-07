@@ -8,7 +8,7 @@
     shell: "{{ new_user_shell|default('/bin/zsh') }}"
     home: "{{ new_user_home_dir | default('/Users/' + new_user_username ) }}"
     create_home: no
-    group: "{{ new_user_primary_group | default('staff')}}"
+    group: "{{ new_user_primary_group | default('staff') }}"
     groups: "{{ new_user_additional_groups | default(['admin']) }}"
     append: yes
     update_password: on_create
@@ -18,6 +18,7 @@
 - name: new_user_created
   debug:
     var: new_user_created
+  notify: Require new password at the first login
   when: verbose | bool
 
 - name: Remove user from 'admin' group.
@@ -30,11 +31,6 @@
   debug:
     var: new_user_removed_from_admin
   when: verbose | bool
-
-- name: Require new password at the first login
-  command: pwpolicy -u {{ new_user_username }} -setpolicy "newPasswordRequired=1"
-  when: new_user_reset_password_on_login and (new_user_created is defined and not new_user_created.failed and new_user_created.changed)
-  become: yes
 
 - name: Create user's home
   command: 'createhomedir -c -l -u "{{ new_user_username }}"'
