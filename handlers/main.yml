@@ -1,9 +1,0 @@
----
-- name: Require new password at the first login
-  command: pwpolicy -u {{ new_user_username }} -setpolicy "newPasswordRequired=1"
-  when:
-    - new_user_reset_password_on_login
-    - new_user_created is defined
-    - not new_user_created.failed
-    - new_user_created.changed
-  become: yes

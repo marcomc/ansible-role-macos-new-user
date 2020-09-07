@@ -1,5 +1,4 @@
 ---
-
 - name: Creating user "{{ new_user_username }}".
   user:
     name: "{{ new_user_username | mandatory }}"
@@ -13,13 +12,14 @@
     append: yes
     update_password: on_create
   register: new_user_created
-  notify: Require new password at the first login
   become: yes
 
-- name: new_user_created
-  debug:
-    var: new_user_created
-  when: verbose | bool
+- name: Require new password at the first login
+  command: pwpolicy -u {{ new_user_username }} -setpolicy "newPasswordRequired=1"
+  when:
+    - new_user_reset_password_on_login
+    - not new_user_created.failed
+  become: yes
 
 - name: Remove user from 'admin' group.
   command: dseditgroup -o edit -d '{{ new_user_username }}' -t user 'admin'
@@ -27,19 +27,9 @@
   when: new_user_is_admin is defined and not new_user_is_admin
   become: yes
 
-- name: new_user_removed_from_admin
-  debug:
-    var: new_user_removed_from_admin
-  when: verbose | bool
-
 - name: Create user's home
   command: 'createhomedir -c -l -u "{{ new_user_username }}"'
   when: new_user_created is defined and not new_user_created.failed
   register: new_user_home_dir_created
   changed_when: no
   become: yes
-
-- name: new_user_home_dir_created
-  debug:
-    var: new_user_home_dir_created
-  when: verbose | bool
