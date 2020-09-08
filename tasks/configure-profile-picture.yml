@@ -72,7 +72,7 @@
     - profile_picture is defined or random_profile_picture is defined
     - (profile_picture.results[0].dest is defined and profile_picture.results[0].dest | length > 0) or
       (random_profile_picture.results is defined and random_profile_picture.results != [])
-  notify: Delete profile picture import file.
+  notify: Delete profile picture import file
   become: yes
 
 - name: user_profile_picture_created
