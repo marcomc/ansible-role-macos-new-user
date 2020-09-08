@@ -61,6 +61,7 @@
   template:
     src: picture.dsimport.j2
     dest: "{{ item }}"
+    mode: 0755
   vars:
     picture_path: "{{ profile_picture.results[0].dest|default(random_profile_picture.results[0].dest) }}"
     username: "{{ new_user_username }}"
@@ -69,7 +70,8 @@
     - "/Library/Caches/{{ username }}.picture.dsimport"
   when:
     - profile_picture is defined or random_profile_picture is defined
-    - (profile_picture.results[0].dest is defined and profile_picture.results[0].dest | length > 0) or (random_profile_picture.results is defined and random_profile_picture.results != [])
+    - (profile_picture.results[0].dest is defined and profile_picture.results[0].dest | length > 0) or
+      (random_profile_picture.results is defined and random_profile_picture.results != [])
   become: yes
 
 - name: user_profile_picture_created
