@@ -1,0 +1,8 @@
+---
+- name: Delete profile picture import file
+  file:
+    path: "{{ item }}"
+    state: directory
+  loop:
+    - "/Library/Caches/{{ username }}.picture.dsimport"
+  become: yes
