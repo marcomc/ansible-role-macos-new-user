@@ -4,5 +4,5 @@
     path: "{{ item }}"
     state: directory
   loop:
-    - "/Library/Caches/{{ username }}.picture.dsimport"
+    - "/Library/Caches/{{ new_user_username }}.picture.dsimport"
   become: yes
