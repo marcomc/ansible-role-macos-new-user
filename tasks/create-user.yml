@@ -3,7 +3,7 @@
   user:
     name: "{{ new_user_username | mandatory }}"
     comment: "{{ new_user_fullname | default(omit) }}"
-    password: "{{ new_user_password_cleartext }}"
+    password: "{{ new_user_password_cleartext | mandatory }}"
     shell: "{{ new_user_shell|default('/bin/zsh') }}"
     home: "{{ new_user_home_dir | default('/Users/' + new_user_username ) }}"
     create_home: no
