@@ -35,6 +35,5 @@
   when:
     - (usr_local_bin.stat.isdir is defined and usr_local_bin.stat.isdir) or (usr_local_sbin.stat.isdir is defined and usr_local_sbin.stat.isdir)
     - new_user_update_path_for_all_shell_types|bool or item.shell == new_user_shell
-  # end block
   become: "{{ new_user_username != ansible_user_id }}"
   become_user: "{{ new_user_username }}"

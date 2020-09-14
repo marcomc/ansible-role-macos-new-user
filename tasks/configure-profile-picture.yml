@@ -88,5 +88,5 @@
   - name: Set the profile picture for the user "{{ new_user_username }}".
     command: dsimport "/Library/Caches/{{ new_user_username }}.picture.dsimport" /Local/Default M -u "${ new_user_username }"
   # end block
-  when: user_profile_picture_created.results[0].failed|default('no') | bool
+  when: not user_profile_picture_created.results[0].failed|default('no') | bool
   become: yes
