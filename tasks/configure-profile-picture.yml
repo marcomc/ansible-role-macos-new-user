@@ -69,6 +69,7 @@
     - profile_picture is defined or random_profile_picture is defined
     - (profile_picture.results[0].dest is defined and profile_picture.results[0].dest | length > 0) or
       (random_profile_picture.results is defined and random_profile_picture.results != [])
+  changed_when: no
   notify: Delete profile picture import file
   become: yes
 
@@ -89,4 +90,5 @@
     command: dsimport "/Library/Caches/{{ new_user_username }}.picture.dsimport" /Local/Default M -u "${ new_user_username }"
   # end block
   when: not user_profile_picture_created.results[0].failed|default('no') | bool
+  changed_when: no
   become: yes
