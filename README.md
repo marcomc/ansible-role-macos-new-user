@@ -11,7 +11,7 @@ This ansible role create a new user on the target macOS system.
         new_user_password_cleartext:              "Clear Text Password" # Ansible can only create users on macos using a cleartext password (for now)
     - hosts: localhost
       roles:
-      - marcomc.macos-new-user
+      - marcomc.macos_new_user
 ```
 
 ## Variables

@@ -2,6 +2,7 @@ galaxy_info:
   author: Marco Massari Calderone <marco@marcomc.com>
   description: Ansible role to create a new user in macOS.
   license: MIT
+  role_name: macos_new_user
   min_ansible_version: 2
   platforms:
     - name: MacOSX
