@@ -85,10 +85,11 @@
     loop:
       - 'jpegphoto'
       - 'Picture'
+    changed_when: no
 
   - name: Set the profile picture for the user "{{ new_user_username }}".
     command: dsimport "/Library/Caches/{{ new_user_username }}.picture.dsimport" /Local/Default M -u "${ new_user_username }"
+    changed_when: no
   # end block
   when: not user_profile_picture_created.results[0].failed|default('no') | bool
-  changed_when: no
   become: yes
