@@ -9,9 +9,10 @@
 - hosts: test
   vars:
     verbose: yes
-    new_user_username:                        "testuser"
-    new_user_fullname:                        "Test User"
-    
+    new_user_username: "testuser"
+    new_user_fullname: "Test User"
+    new_user_random_profile_picture: yes
+
   roles:
     - macos_new_user
 ...
