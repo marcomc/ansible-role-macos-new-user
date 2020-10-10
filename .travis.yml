@@ -1,0 +1,32 @@
+---
+os: osx
+osx_image:
+# OS X 10.15
+  - xcode12
+# OS X 10.14
+  - xcode11.2
+
+language: generic
+
+sudo: required
+install:
+  - pip3 install --upgrade pip
+  - pip3 install ansible ansible-lint
+env:
+  global:
+    - TEST_ANSIBLE_HOSTNAME: localhost
+      TEST_ANSIBLE_CONNECTION: local
+      PYTHON: 3.5.1
+      ANSIBLE_BECOME_PASS: travis
+script:
+  - ansible-lint .
+  - ansible-playbook -i test/inventory test/playbook.yml --syntax-check
+  - ansible-playbook -i test/inventory test/playbook.yml --list-tasks
+  - ansible-playbook -i test/inventory test/playbook.yml --connection=local -vvvv
+  - ansible-playbook -i test/inventory test/playbook.yml --connection=local -vvvv
+  - 'ansible-playbook -i test/inventory test/playbook.yml --connection=local | grep -q "changed=0.*failed=0" &&
+    (echo "Idempotence test: pass" && exit 0) || (echo "Idempotence test: fail" && exit 1)'
+
+notifications:
+    webhooks: https://galaxy.ansible.com/api/v1/notifications/
+...
