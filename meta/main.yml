@@ -1,6 +1,6 @@
 galaxy_info:
   author: Marco Massari Calderone <marco@marcomc.com>
-  description: Ansible role to create a new user in macOS.
+  description: Ansible role to create a new user in macOS. Also used in Splinter provisioning tool.
   license: MIT
   role_name: macos_new_user
   min_ansible_version: 2
