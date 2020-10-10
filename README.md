@@ -29,7 +29,7 @@ Used in [Splinter, an opinionated provisioning tool for macOS](https://github.co
     new_user_is_admin:                        yes
     new_user_update_path_for_all_shell_types: no
     new_user_profile_picture_path:            ""
-    new_user_random_profile_picture:          yes
+    new_user_random_profile_picture:          no
     new_user_random_profile_pictures_path:    "{{ playbook_dir }}/files/profile_pictures"
     new_user_profile_pictures_filter_formats: 'jpg\|jpeg\|png' # grep filter format
 
